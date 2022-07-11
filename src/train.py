@@ -30,6 +30,7 @@ parser.add_argument('--patience', type=int, default=50)
 parser.add_argument('--coef', default=None)
 parser.add_argument('--topN', type=int, default=50)
 parser.add_argument('--exp', type=str, default='test1')
+parser.add_argument('--batch_size', type=str, default='256')
 
 best_metric = 0
 
@@ -358,13 +359,13 @@ if __name__ == '__main__':
     if args.dataset == 'taobao':
         path = './data/taobao_data/'
         item_count = 1708531
-        batch_size = 256
+        batch_size = args.batch_size #256
         maxlen = 50
         test_iter = 500
     elif args.dataset == 'book':
         path = './data/book_data/'
         item_count = 367983
-        batch_size = 128
+        batch_size = args.batch_size #128
         maxlen = 20
         test_iter = 1000
     
