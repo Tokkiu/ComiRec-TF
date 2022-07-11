@@ -30,7 +30,7 @@ parser.add_argument('--patience', type=int, default=50)
 parser.add_argument('--coef', default=None)
 parser.add_argument('--topN', type=int, default=50)
 parser.add_argument('--exp', type=str, default='test1')
-parser.add_argument('--batch_size', type=str, default='256')
+parser.add_argument('--batch_size', type=int, default='256')
 
 best_metric = 0
 
