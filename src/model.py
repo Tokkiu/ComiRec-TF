@@ -34,6 +34,7 @@ class Model(object):
 
 
     def build_sampled_softmax_loss(self, item_emb, user_emb):
+        print('-' * 20, self.neg_num, self.batch_size, self.n_mid)
         self.loss = tf.reduce_mean(tf.nn.sampled_softmax_loss(self.mid_embeddings_var, self.mid_embeddings_bias, tf.reshape(self.mid_batch_ph, [-1, 1]), user_emb, self.neg_num * self.batch_size, self.n_mid))
 
         self.optimizer = tf.train.AdamOptimizer(learning_rate=self.lr).minimize(self.loss)
