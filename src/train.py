@@ -237,7 +237,7 @@ def train(
         valid_data = DataIterator(valid_file, batch_size, maxlen, train_flag=1)
         
         model = get_model(dataset, model_type, item_count, batch_size, maxlen)
-        
+        print('-'*20, exp, batch_size)
         sess.run(tf.global_variables_initializer())
         sess.run(tf.local_variables_initializer())
 
