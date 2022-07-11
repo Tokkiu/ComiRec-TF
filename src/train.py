@@ -369,7 +369,7 @@ if __name__ == '__main__':
         maxlen = 20
         test_iter = 1000
 
-    print(args.dataset, args.batch_size, batch_size)
+    print('-'*20, args.dataset, args.batch_size, batch_size)
     train_file = path + args.dataset + '_train.txt'
     valid_file = path + args.dataset + '_valid.txt'
     test_file = path + args.dataset + '_test.txt'
