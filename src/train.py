@@ -29,6 +29,7 @@ parser.add_argument('--max_iter', type=int, default=1000, help='(k)')
 parser.add_argument('--patience', type=int, default=50)
 parser.add_argument('--coef', default=None)
 parser.add_argument('--topN', type=int, default=50)
+parser.add_argument('--exp', type=str, default='test1')
 
 best_metric = 0
 
@@ -186,13 +187,15 @@ def get_model(dataset, model_type, item_count, batch_size, maxlen):
         return
     return model
 
-def get_exp_name(dataset, model_type, batch_size, lr, maxlen, save=True):
-    extr_name = input('Please input the experiment name: ')
+def get_exp_name(dataset, model_type, batch_size, lr, maxlen, save=True, exp='test1'):
+    # extr_name = input('Please input the experiment name: ')
+    extr_name = exp
     para_name = '_'.join([dataset, model_type, 'b'+str(batch_size), 'lr'+str(lr), 'd'+str(args.embedding_dim), 'len'+str(maxlen)])
     exp_name = para_name + '_' + extr_name
 
     while os.path.exists('runs/' + exp_name) and save:
-        flag = input('The exp name already exists. Do you want to cover? (y/n)')
+        # flag = input('The exp name already exists. Do you want to cover? (y/n)')
+        flag = 'y'
         if flag == 'y' or flag == 'Y':
             shutil.rmtree('runs/' + exp_name)
             break
@@ -215,9 +218,10 @@ def train(
         model_type = 'DNN',
         lr = 0.001,
         max_iter = 100,
-        patience = 20
+        patience = 20,
+        exp=''
 ):
-    exp_name = get_exp_name(dataset, model_type, batch_size, lr, maxlen)
+    exp_name = get_exp_name(dataset, model_type, batch_size, lr, maxlen, exp=exp)
 
     best_model_path = "best_model/" + exp_name + '/'
 
@@ -328,7 +332,7 @@ def output(
         model_type = 'DNN',
         lr = 0.001
 ):
-    exp_name = get_exp_name(dataset, model_type, batch_size, lr, maxlen, save=False)
+    exp_name = get_exp_name(dataset, model_type, batch_size, lr, maxlen, save=False, exp='output1')
     best_model_path = "best_model/" + exp_name + '/'
     gpu_options = tf.GPUOptions(allow_growth=True)
     model = get_model(dataset, model_type, item_count, batch_size, maxlen)
@@ -373,7 +377,7 @@ if __name__ == '__main__':
     if args.p == 'train':
         train(train_file=train_file, valid_file=valid_file, test_file=test_file, cate_file=cate_file, 
               item_count=item_count, dataset=dataset, batch_size=batch_size, maxlen=maxlen, test_iter=test_iter, 
-              model_type=args.model_type, lr=args.learning_rate, max_iter=args.max_iter, patience=args.patience)
+              model_type=args.model_type, lr=args.learning_rate, max_iter=args.max_iter, patience=args.patience, exp=args.exp)
     elif args.p == 'test':
         test(test_file=test_file, cate_file=cate_file, item_count=item_count, dataset=dataset, batch_size=batch_size, 
              maxlen=maxlen, model_type=args.model_type, lr=args.learning_rate)
