@@ -245,6 +245,8 @@ def train(
         sys.stdout.flush()
 
         start_time = time.time()
+        min_start_time = time.time()
+
         iter = 0
         try:
             loss_sum = 0.0
@@ -284,7 +286,8 @@ def train(
 
                     loss_sum = 0.0
                     test_time = time.time()
-                    print("time interval: %.4f min" % ((test_time-start_time)/60.0))
+                    print("time interval: %.4f min" % ((test_time-min_start_time)/60.0))
+                    min_start_time = time.time()
                     sys.stdout.flush()
                 
                 if iter >= max_iter * 1000:
@@ -293,6 +296,8 @@ def train(
             print('-' * 89)
             print('Exiting from training early')
 
+        test_time = time.time()
+        print("Train time cost: %.4f min" % ((test_time - start_time) / 60.0))
         model.restore(sess, best_model_path)
 
         metrics = evaluate_full(sess, valid_data, model, best_model_path, batch_size, item_cate_map, save=False)
